@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sm.dao.EnterpriseinfoDao">
+    <select id="getBusiness_address" resultType="string">
+        select distinct t1.name business_address
+        from address t1,enterprise_information t2 where t1.id = #{enterprise_addressid}
+    </select>
+    <select id="getbusiness_address" resultType="string">
+        select distinct t1.name enterprise_industry
+        from industry t1,enterprise_information t2 where t1.id = #{enterprise_industryid}
+    </select>
+    <select id="getTransferFName" resultType="map">
+        SELECT DISTINCT t1.name business_address, t2.name enterprise_industry
+        from address t1,industry t2,enterprise_information t3
+        where t1.id = #{enterprise_addressid} and t2.id = #{enterprise_industryid}
+    </select>
+    <select id="getinfoID" resultType="int">
+        select t1.id from enterprise_information t1 where t1.enterprise_name = #{enterprise_name}
+    </select>
+
+    <select id="getEmployeeinfoByID" resultType="sm.pojo.Enterpriseinfo">
+        select DISTINCT e.*
+        from enterprise_users d,enterprise_information e
+        where  e.id = (select enterprise_usersid from enterprise_users where id = #{id}) and e.deleted = 0 and d.deleted = 0
+       </select>
+
+</mapper>

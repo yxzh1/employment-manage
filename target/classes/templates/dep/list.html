@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwww.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>就业状态</title>
+  <link th:href="@{/asserts/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
+  <script th:src="@{/asserts/js/jquery-3.2.1.slim.min.js}"></script>
+  <script th:src="@{/asserts/js/bootstrap.min.js}"></script>
+  <style>
+    tr{
+      /*表格内容居中显示*/
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+<!--引入公共顶部栏-->
+<div th:insert="~{commons/commons::topbar}"></div>
+<div class="container-fluid">
+  <div class="row">
+    <!--引入公共侧边栏-->
+<!--    <div th:insert="~{commons/commons::sidebar}"></div>-->
+    <div th:insert="~{commons/commons::sidebar(active='dep')}"></div>
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+      <h2>就业类型管理</h2>
+      <h3><a shiro:hasPermission="'dep:toAdd'" class="btn  btn-success" style="float: right" th:href="@{/dep/toAdd}">添加就业类型</a></h3>
+      <br/>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+          <tr>
+            <th>序号</th>
+            <th>就业类型</th>
+            <th>创建时间</th>
+            <th>修改时间</th>
+            <th>操作</th>
+          </tr>
+          </thead>
+          <tbody>
+          <!--循环遍历后端传来的列表-->
+          <tr th:each="depart:${departList}">
+            <!--在处理业务数据时，通常有表头（主表），表身（从表），当我们在前端需要显示表身时不能使用ID当做序号（很有可能排序不同而错乱），
+								那么处理办法，1.通过Java后端实现 2.通过前端遍历时添加。
+								对List的实体名拼接Stat.index+1 就能得到序号信息-->
+            <td th:text="${departStat.index+1}"></td>
+            <td th:text="${depart.name}"></td>
+            <td th:text="${#dates.format(depart.createtime,'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${#dates.format(depart.updatetime,'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td>
+              <a class="btn btn-sm btn-primary" th:href="@{/dep/toUpdate/}+${depart.id}">修改</a>
+              <a class="btn btn-sm btn-danger"  th:href="@{/dep/delete/}+${depart.id}">删除</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>
+</body>
+</html>

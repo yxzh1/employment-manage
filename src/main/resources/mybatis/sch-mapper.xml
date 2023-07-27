@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sm.dao.TeachersDao">
+    <resultMap id="Teacherinfo" type="Teachers">
+        <result property="id" column="id"></result>
+        <result property="name" column="name"></result>
+        <result property="password" column="password"></result>
+        <result property="age" column="age"></result>
+        <result property="sex" column="sex"></result>
+        <result property="phone" column="phone"></result>
+        <result property="major" column="major"></result>
+        <result property="birth" column="birth"></result>
+        <result property="role" column="role"></result>
+        <result property="createtime" column="createtime"></result>
+        <result property="updatetime" column="updatetime"></result>
+        <result property="version" column="version"></result>
+        <result property="deleted" column="deleted"></result>
+        <result property="teacherid" column="teacherid"></result>
+        <association property="roles" javaType="roles">
+            <result property="id" column="rid"></result>
+            <result property="name" column="rname"></result>
+            <result property="perms" column="perms"></result>
+        </association>
+    </resultMap>
+
+    <select id="getSchList" resultMap="Teacherinfo">
+        select d.*
+             ,r.id as rid,r.name as rname,r.perms
+        from teachers d,roles r
+        where r.id = d.role and  d.deleted = 0
+        ORDER BY d.id ASC
+    </select>
+    <select id="getteachersByID" resultMap="Teacherinfo">
+        select d.*
+             ,r.id as rid,r.name as rname,r.perms
+        from teachers d,roles r
+        where r.id = d.role and  d.deleted = 0 and d.id = #{id}
+        ORDER BY d.id ASC
+    </select>
+    <select id="get" resultMap="Teacherinfo">
+        select e.*
+             ,r.id as rid,r.name as rname,r.perms
+        from teachers e,roles r
+        <where>
+            r.id = e.role and  e.deleted = 0
+            <if test="name!=null">
+                and e.name like "%"#{name}"%"
+            </if>
+            <if test="major!=null">
+                and e.major like "%"#{major}"%"
+            </if>
+            <if test="roleid!=0">
+                and e.role = #{roleid}
+            </if>
+        </where>
+    </select>
+    <select id="getEmployeeByName" resultMap="Teacherinfo">
+        select d.*
+             ,r.id as rid,r.name as rname,r.perms
+        from teachers d,roles r
+        where r.id = d.role and  d.deleted = 0 and d.name = #{name}
+        ORDER BY d.id ASC
+    </select>
+</mapper>

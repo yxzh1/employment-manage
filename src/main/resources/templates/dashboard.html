@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>就业管理系统</title>
+	<link th:href="@{/asserts/css/bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
+	<script th:src="@{/asserts/js/jquery-3.2.1.slim.min.js}"></script>
+	<script th:src="@{/asserts/js/bootstrap.min.js}"></script>
+	<style type="text/css">
+		h2{
+			font-family: 楷体;
+			font-size: 92px;
+			text-align: center;
+			line-height: 500px;
+			color: #408ad9;
+		}
+		/* Chart.js */
+
+		@-webkit-keyframes chartjs-render-animation {
+			from {
+				opacity: 0.99
+			}
+			to {
+				opacity: 1
+			}
+		}
+
+		@keyframes chartjs-render-animation {
+			from {
+				opacity: 0.99
+			}
+			to {
+				opacity: 1
+			}
+		}
+
+		.chartjs-render-monitor {
+			-webkit-animation: chartjs-render-animation 0.001s;
+			animation: chartjs-render-animation 0.001s;
+		}
+	</style>
+</head>
+
+<body>
+<!--顶部导航栏-->
+<div th:replace="~{commons/commons::topbar}"></div>
+
+<div class="container-fluid">
+	<div class="row">
+
+		<!--侧边栏-->
+		<!--传递参数给组件-->
+		<div th:replace="~{commons/commons::sidebar(active='main.html')}"></div>
+
+		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+				<h2>欢迎使用学生就业系统</h2>
+		</main>
+	</div>
+</div>
+
+
+
+</body>
+
+</html>

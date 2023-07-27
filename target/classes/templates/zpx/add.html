@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)http://getbootstrap.com/docs/4.0/examples/dashboard/ -->
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<title>添加招聘信息</title>
+		<!-- Bootstrap core CSS -->
+		<link th:href="@{/asserts/css/bootstrap.min.css}" rel="stylesheet">
+
+		<!-- Custom styles for this template -->
+		<link th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
+		<style type="text/css">
+			/* Chart.js */
+			
+			@-webkit-keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			@keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			.chartjs-render-monitor {
+				-webkit-animation: chartjs-render-animation 0.001s;
+				animation: chartjs-render-animation 0.001s;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<!--顶部导航栏-->
+		<div th:replace="~{commons/commons::topbar}"></div>
+
+		<div class="container-fluid">
+			<div class="row">
+
+				<!--侧边栏-->
+				<div th:replace="~{commons/commons::sidebar}"></div>
+
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+					<form th:action="@{/zpx/add}" method="post">
+						<div class="form-group">
+							<label>公司名字</label>
+							<input type="text" name="enterprise_name" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>负责人</label>
+							<select class="form-control" name="person_in_charge" required>
+								<option th:each="enterprise:${enterpriseList}" th:value="${enterprise.name}">[[${enterprise.name}]]</option>
+							</select>
+						</div>
+						<div class="form-group">
+							<label>招聘职位</label>
+							<input type="text" name="recruitment_occupation" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>薪资福利</label><br/>
+							<input type="text" name="compensation_and_benefits" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>学历要求</label>
+							<input type="text" name="educational_requirements" class="form-control" required>
+						</div>
+						<div class="form-group">
+							<label>专业要求</label>
+							<input type="text" class="form-control" name="professional_requirements" required>
+						</div>
+						<button type="submit" class="btn btn-primary">添加</button>
+					</form>
+				</main>
+			</div>
+		</div>
+
+
+	</body>
+
+</html>

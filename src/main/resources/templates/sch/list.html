@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<title>老师管理列表</title>
+		<!-- Bootstrap core CSS -->
+		<link th:href="@{/asserts/css/bootstrap.min.css}" rel="stylesheet">
+
+		<!-- Custom styles for this template -->
+		<link th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
+		<script th:src="@{/asserts/js/jquery-3.2.1.slim.min.js}"></script>
+		<script th:src="@{/asserts/js/bootstrap.min.js}"></script>
+		<style type="text/css">
+			tr{
+				/*表格内容居中展示*/
+				text-align: center;
+			}
+			/* Chart.js */
+			
+			@-webkit-keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			@keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+			
+			.chartjs-render-monitor {
+				-webkit-animation: chartjs-render-animation 0.001s;
+				animation: chartjs-render-animation 0.001s;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<!--顶部导航栏-->
+		<div th:replace="~{commons/commons::topbar}"></div>
+
+		<div class="container-fluid">
+			<div class="row">
+
+				<!--侧边栏-->
+				<div th:replace="~{commons/commons::sidebar(active='sch')}"></div>
+
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+					<h2>老师信息</h2>
+					<br/>
+					<form shiro:hasPermission="'sch:get'" class="form-inline" role="form" th:action="@{/sch/get}" method="post">
+						<div class="form-group col-lg-3">
+							老师姓名: &nbsp;<input type="text" name="name" class="form-control" placeholder="请输入老师姓名">
+						</div>
+						<div class="form-group col-lg-3" shiro:hasPermission="'sch:*'">
+							负责专业: &nbsp;<input type="text" name="major" class="form-control" placeholder="请输入专业">
+						</div>
+						<div class="form-group col-lg-3" shiro:hasPermission="'sch:*'">
+							角色: &nbsp;<select name="roleid">
+							<option value="0">---请选择---</option>
+							<option th:each="roles:${rolesList}" th:value="${roles.id}" th:text="${roles.name}"></option>
+						</select>
+						</div>
+						<div class="form-group col-lg-3" >
+							<input type="submit" value="查询">
+						</div>
+					</form>
+					<h3><a shiro:hasPermission="'sch:toAdd'" class="btn  btn-success" style="float: right" th:href="@{/sch/toAdd}">添加老师</a></h3>
+					<br/>
+					<div class="table-responsive">
+						<table class="table table-striped table-sm">
+							<thead>
+							<tr>
+								<th>序号</th>
+								<th>姓名</th>
+								<th>年龄</th>
+								<th>性别</th>
+								<th>联系方式</th>
+								<th>负责专业</th>
+								<th>角色</th>
+								<th>创建日期</th>
+								<th>修改日期</th>
+								<th>操作</th>
+							</tr>
+							</thead>
+							<tbody>
+							<!--循环遍历后端传来的列表-->
+							<tr th:each="teachers:${teachersList}">
+								<!--在处理业务数据时，通常有表头（主表），表身（从表），当我们在前端需要显示表身时不能使用ID当做序号（很有可能排序不同而错乱），
+								那么处理办法，1.通过Java后端实现 2.通过前端遍历时添加。
+								对List的实体名拼接Stat.index+1 就能得到序号信息-->
+								<td th:text="${teachersStat.index+1}"></td>
+								<td th:text="${teachers.name}"></td>
+								<td th:text="${teachers.age}"></td>
+								<td th:text="${teachers.sex==0?'女':'男'}"></td>
+								<td th:text="${teachers.phone}"></td>
+								<td th:text="${teachers.major}"></td>
+								<td th:text="${teachers.roles.name}"></td>
+								<td th:text="${#dates.format(teachers.createtime,'yyyy-MM-dd HH:mm:ss')}"></td>
+								<td th:text="${#dates.format(teachers.updatetime,'yyyy-MM-dd HH:mm:ss')}"></td>
+								<td>
+									<a shiro:hasPermission="'sch:toUpdate'" class="btn btn-sm btn-primary" th:href="@{/sch/toUpdate/}+${teachers.id}">修改</a>
+									<a shiro:hasPermission="'sch:delete'" class="btn btn-sm btn-danger"  th:href="@{/sch/delete/}+${teachers.id}">删除</a>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					</div>
+				</main>
+			</div>
+		</div>
+
+
+	</body>
+
+</html>

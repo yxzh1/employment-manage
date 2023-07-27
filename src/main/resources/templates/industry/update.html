@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwww.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>修改状态</title>
+    <link th:href="@{/asserts/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
+</head>
+
+<body>
+<!--引入公共顶部栏-->
+<div th:insert="~{commons/commons::topbar}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <!--引入公共侧边栏-->
+        <div th:insert="~{commons/commons::sidebar(active='industry')}"></div>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <form th:action="@{/industry/update}" method="post">
+                <input type="hidden" name="id" th:value="${industry.id}">
+                <input type="hidden" name="old" th:value="${industry.name}">
+                <div class="form-group">
+                    <label>地址</label>
+                    <input type="text" name="name" th:value="${industry.name}"  class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">修改</button>
+            </form>
+        </main>
+    </div>
+</div>
+</body>
+</html>

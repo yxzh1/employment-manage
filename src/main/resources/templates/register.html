@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>注册</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/asserts/css/bootstrap.min.css}"/>
+
+    <style type="text/css">
+        form{
+            width: 300px;/* 宽度 */
+            text-align: center;/* 内容水平居中 */
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 100px;
+        }
+        form button{
+            width:300px;
+            margin-bottom:20px ;
+        }
+        form h2{
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <form id="addUserForm" class="col-sm-offset-4 col-sm-4 col-sm-offset-4 form form-horizontal" th:action="@{/studentInforegister}" method="post">
+        <h3 class="text-center">用户注册</h3>
+        <!--把标签和控件放在一个from-group的div中-->
+        <div class="form-group">
+            <label for="username" class="col-sm-4 control-label">账<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>号</label>
+                <input class="form-control" type="text" name="userName" id="username" placeholder="由2-12个字符组成" />
+        </div>
+        <div class="form-group">
+            <label for="psw" class="col-sm-4 control-label">密<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>码</label>
+                <input class="form-control" type="password" name="userPassword" id="psw" placeholder="由6-18个字符组成" />
+        </div>
+        <div class="form-group">
+            <label for="psw" class="col-sm-4 control-label">确认密码</label>
+                <input class="form-control" type="password" name="userPassword2" id="psw1" placeholder="再次确认密码" />
+        </div>
+        <div class="form-group">
+            <label for="email" class="col-sm-4 control-label">邮<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>箱</label>
+                <input name="userEmail" class="form-control" type="email"  id="email" placeholder="例如:123@123.com">
+        </div>
+        <button type="submit" class="btn btn-success ">注册</button>
+        <div class="text-right" style="margin-bottom: 20px;">
+            <a href="index.html">已有账号？立即登录</a>
+        </div>
+    </form>
+
+        <script src="/asserts/js/jquery-3.2.1.slim.min.js"></script>
+        <script src="/asserts/js/bootstrap.min.js"></script>
+        <script src="/asserts/js/bootstrapValidator.min.js"></script>
+        <script src="/asserts/js/form.js"></script>
+</body>
+</html>

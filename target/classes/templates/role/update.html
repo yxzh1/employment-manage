@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwww.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>修改角色</title>
+    <link th:href="@{/asserts/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
+</head>
+
+<body>
+<!--引入公共顶部栏-->
+<div th:insert="~{commons/commons::topbar}"></div>
+<div class="container-fluid">
+    <div class="row">
+        <!--引入公共侧边栏-->
+        <div th:insert="~{commons/commons::sidebar(active='role')}"></div>
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+            <form th:action="@{/role/update}" method="post">
+                <input type="hidden" name="id" th:value="${role.id}">
+                <div class="form-group">
+                    <label>角色名称</label>
+                    <input type="text" name="name" th:value="${role.name}"  class="form-control">
+                </div>
+                <div class="form-group" >
+                    <label>角色权限:</label>
+                    <br/>
+                    <br/>
+                    <!--此处曾想后端传来perms的列表,然后遍历, th:each="list:${lists}" th:checked="${list=='emp:*')}" 这样的话多选框会重复创建-->
+                    <label>学生操作权限:</label>
+                    <input type="checkbox" name="perms" value="emp:*"        th:checked="${#strings.containsIgnoreCase(role.perms,'emp:*')}">操作学生的所有权限--
+                    <input type="checkbox" name="perms" value="emp:list"     th:checked="${#strings.containsIgnoreCase(role.perms,'emp:list')}">查看学生列表--
+                    <input type="checkbox" name="perms" value="emp:toAdd"    th:checked="${#strings.containsIgnoreCase(role.perms,'emp:toAdd')}">跳转添加学生--
+                    <input type="checkbox" name="perms" value="emp:add"      th:checked="${#strings.containsIgnoreCase(role.perms,'emp:add')}">添加学生--
+                    <input type="checkbox" name="perms" value="emp:toUpdate" th:checked="${#strings.containsIgnoreCase(role.perms,'emp:toUpdate')}">跳转修改学生--
+                    <input type="checkbox" name="perms" value="emp:update"   th:checked="${#strings.containsIgnoreCase(role.perms,'emp:update')}">修改学生--
+                    <input type="checkbox" name="perms" value="emp:delete"   th:checked="${#strings.containsIgnoreCase(role.perms,'emp:delete')}">删除学生--
+                    <input type="checkbox" name="perms" value="emp:get"      th:checked="${#strings.containsIgnoreCase(role.perms,'emp:get')}">查询学生--
+                    <br/>
+                    <br/>
+                    <br/>
+                    <label>就业类型操作权限:</label>
+                    <input type="checkbox" name="perms" value="dep:*"        th:checked="${#strings.containsIgnoreCase(role.perms,'dep:*')}">操作就业类型的所有权限--
+                    <input type="checkbox" name="perms" value="dep:list"     th:checked="${#strings.containsIgnoreCase(role.perms,'dep:list')}">查看就业类型列表--
+                    <input type="checkbox" name="perms" value="dep:toAdd"    th:checked="${#strings.containsIgnoreCase(role.perms,'dep:toAdd')}">跳转添加就业类型--
+                    <input type="checkbox" name="perms" value="dep:add"      th:checked="${#strings.containsIgnoreCase(role.perms,'dep:add')}">添加就业类型--
+                    <input type="checkbox" name="perms" value="dep:toUpdate" th:checked="${#strings.containsIgnoreCase(role.perms,'dep:toUpdate')}">跳转修改就业类型--
+                    <input type="checkbox" name="perms" value="dep:update"   th:checked="${#strings.containsIgnoreCase(role.perms,'dep:update')}">修改就业类型--
+                    <input type="checkbox" name="perms" value="dep:delete"   th:checked="${#strings.containsIgnoreCase(role.perms,'dep:delete')}">删除就业类型--
+                    <br/>
+                    <br/>
+                    <br/>
+                    <label>角色操作权限:</label>
+                    <input type="checkbox" name="perms" value="role:*"        th:checked="${#strings.containsIgnoreCase(role.perms,'role:*')}">操作角色的所有权限--
+                    <input type="checkbox" name="perms" value="role:list"     th:checked="${#strings.containsIgnoreCase(role.perms,'role:list')}">查看角色列表--
+                    <input type="checkbox" name="perms" value="role:toAdd"    th:checked="${#strings.containsIgnoreCase(role.perms,'role:toAdd')}">跳转添加角色--
+                    <input type="checkbox" name="perms" value="role:add"      th:checked="${#strings.containsIgnoreCase(role.perms,'role:add')}">添加角色--
+                    <input type="checkbox" name="perms" value="role:toUpdate" th:checked="${#strings.containsIgnoreCase(role.perms,'role:toUpdate')}">跳转修改角色--
+                    <input type="checkbox" name="perms" value="role:update"   th:checked="${#strings.containsIgnoreCase(role.perms,'role:update')}">修改角色--
+                    <input type="checkbox" name="perms" value="role:delete"   th:checked="${#strings.containsIgnoreCase(role.perms,'role:delete')}">删除角色--
+                    <br/>
+                    <br/>
+                    <br/>
+                    <label>企业操作权限:</label>
+                    <input type="checkbox" name="perms" value="etp:*"        th:checked="${#strings.containsIgnoreCase(role.perms,'etp:*')}">操作企业的所有权限--
+                    <input type="checkbox" name="perms" value="etp:list"     th:checked="${#strings.containsIgnoreCase(role.perms,'etp:list')}">查看企业列表--
+                    <input type="checkbox" name="perms" value="etp:toAdd"    th:checked="${#strings.containsIgnoreCase(role.perms,'etp:toAdd')}">跳转添加企业--
+                    <input type="checkbox" name="perms" value="etp:add"      th:checked="${#strings.containsIgnoreCase(role.perms,'etp:add')}">添加企业--
+                    <input type="checkbox" name="perms" value="etp:toUpdate" th:checked="${#strings.containsIgnoreCase(role.perms,'etp:toUpdate')}">跳转修改企业--
+                    <input type="checkbox" name="perms" value="etp:update"   th:checked="${#strings.containsIgnoreCase(role.perms,'etp:update')}">修改企业--
+                    <input type="checkbox" name="perms" value="etp:delete"   th:checked="${#strings.containsIgnoreCase(role.perms,'etp:delete')}">删除企业--
+                    <br/>
+                    <br/>
+                    <br/>
+                    <label>老师操作权限:</label>
+                    <input type="checkbox" name="perms" value="sch:*"        th:checked="${#strings.containsIgnoreCase(role.perms,'sch:*')}">操作老师的所有权限--
+                    <input type="checkbox" name="perms" value="sch:list"     th:checked="${#strings.containsIgnoreCase(role.perms,'sch:list')}">查看老师列表--
+                    <input type="checkbox" name="perms" value="sch:toAdd"    th:checked="${#strings.containsIgnoreCase(role.perms,'sch:toAdd')}">跳转添加老师--
+                    <input type="checkbox" name="perms" value="sch:add"      th:checked="${#strings.containsIgnoreCase(role.perms,'sch:add')}">添加老师--
+                    <input type="checkbox" name="perms" value="sch:toUpdate" th:checked="${#strings.containsIgnoreCase(role.perms,'sch:toUpdate')}">跳转修改老师--
+                    <input type="checkbox" name="perms" value="sch:update"   th:checked="${#strings.containsIgnoreCase(role.perms,'sch:update')}">修改老师--
+                    <input type="checkbox" name="perms" value="sch:delete"   th:checked="${#strings.containsIgnoreCase(role.perms,'sch:delete')}">删除老师--
+                    <br/>
+                    <br/>
+                    <br/>
+                    <label>招聘信息操作权限:</label>
+                    <input type="checkbox" name="perms" value="zpx:*"        th:checked="${#strings.containsIgnoreCase(role.perms,'zpx:*')}">操作招聘信息的所有权限--
+                    <input type="checkbox" name="perms" value="zpx:list"     th:checked="${#strings.containsIgnoreCase(role.perms,'zpx:list')}">查看招聘信息列表--
+                    <input type="checkbox" name="perms" value="zpx:toAdd"    th:checked="${#strings.containsIgnoreCase(role.perms,'zpx:toAdd')}">跳转添加招聘信息--
+                    <input type="checkbox" name="perms" value="zpx:add"      th:checked="${#strings.containsIgnoreCase(role.perms,'zpx:add')}">添加招聘信息--
+                    <input type="checkbox" name="perms" value="zpx:toUpdate" th:checked="${#strings.containsIgnoreCase(role.perms,'zpx:toUpdate')}">跳转修改招聘信息--
+                    <input type="checkbox" name="perms" value="zpx:update"   th:checked="${#strings.containsIgnoreCase(role.perms,'zpx:update')}">修改招聘信息--
+                    <input type="checkbox" name="perms" value="zpx:delete"   th:checked="${#strings.containsIgnoreCase(role.perms,'zpx:delete')}">删除招聘信息--
+                    <input type="checkbox" name="perms" value="zpx:upload"   th:checked="${#strings.containsIgnoreCase(role.perms,'zpx:upload')}">上传招聘信息--
+                    <br/>
+                    <br/>
+                    <br/>
+                    <label>行业操作权限:</label>
+                    <input type="checkbox" name="perms" value="industry:*"        th:checked="${#strings.containsIgnoreCase(role.perms,'industry:*')}">操作行业的所有权限--
+                    <input type="checkbox" name="perms" value="industry:list"     th:checked="${#strings.containsIgnoreCase(role.perms,'industry:list')}">查看行业列表--
+                    <input type="checkbox" name="perms" value="industry:toAdd"    th:checked="${#strings.containsIgnoreCase(role.perms,'industry:toAdd')}">跳转添加行业--
+                    <input type="checkbox" name="perms" value="industry:add"      th:checked="${#strings.containsIgnoreCase(role.perms,'industry:add')}">添加行业--
+                    <input type="checkbox" name="perms" value="industry:toUpdate" th:checked="${#strings.containsIgnoreCase(role.perms,'industry:toUpdate')}">跳转修改行业--
+                    <input type="checkbox" name="perms" value="industry:update"   th:checked="${#strings.containsIgnoreCase(role.perms,'industry:update')}">修改行业--
+                    <input type="checkbox" name="perms" value="industry:delete"   th:checked="${#strings.containsIgnoreCase(role.perms,'industry:delete')}">删除行业--
+                    <br/>
+                    <br/>
+                    <br/>
+                    <label>地址操作权限:</label>
+                    <input type="checkbox" name="perms" value="address:*"        th:checked="${#strings.containsIgnoreCase(role.perms,'address:*')}">操作地址的所有权限--
+                    <input type="checkbox" name="perms" value="address:list"     th:checked="${#strings.containsIgnoreCase(role.perms,'address:list')}">查看地址列表--
+                    <input type="checkbox" name="perms" value="address:toAdd"    th:checked="${#strings.containsIgnoreCase(role.perms,'address:toAdd')}">跳转添加地址--
+                    <input type="checkbox" name="perms" value="address:add"      th:checked="${#strings.containsIgnoreCase(role.perms,'address:add')}">添加地址--
+                    <input type="checkbox" name="perms" value="address:toUpdate" th:checked="${#strings.containsIgnoreCase(role.perms,'address:toUpdate')}">跳转修改地址--
+                    <input type="checkbox" name="perms" value="address:update"   th:checked="${#strings.containsIgnoreCase(role.perms,'address:update')}">修改地址--
+                    <input type="checkbox" name="perms" value="address:delete"   th:checked="${#strings.containsIgnoreCase(role.perms,'address:delete')}">删除地址--
+
+                </div>
+                <button type="submit" class="btn btn-primary">修改</button>
+            </form>
+        </main>
+    </div>
+</div>
+</body>
+</html>

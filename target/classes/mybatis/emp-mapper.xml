@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sm.dao.StudentsDao">
+    <resultMap id="employeedepart" type="Students">
+        <result property="id" column="id"></result>
+        <result property="name" column="name"></result>
+        <result property="password" column="password"></result>
+        <result property="age" column="age"></result>
+        <result property="sex" column="sex"></result>
+        <result property="phone" column="phone"></result>
+        <result property="birth" column="birth"></result>
+        <result property="role" column="role"></result>
+        <result property="createtime" column="createtime"></result>
+        <result property="updatetime" column="updatetime"></result>
+        <result property="version" column="version"></result>
+        <result property="deleted" column="deleted"></result>
+        <result property="studentid" column="studentid"></result>
+        <result property="major" column="major"></result>
+        <association property="roles" javaType="roles">
+            <result property="id" column="rid"></result>
+            <result property="name" column="rname"></result>
+            <result property="perms" column="perms"></result>
+        </association>
+        <association property="depart" javaType="depart">
+            <result property="id" column="did"></result>
+            <result property="name" column="dname"></result>
+            <result property="createtime" column="dcreatetime"></result>
+            <result property="updatetime" column="dupdatetime"></result>
+            <result property="version" column="dversion"></result>
+            <result property="deleted" column="ddeleted"></result>
+        </association>
+    </resultMap>
+
+    <select id="getEmpList" resultMap="employeedepart">
+        select e.*
+             ,d.id as did,d.name as dname,d.createtime as dcreatetime,d.updatetime as dupdatetime,d.version as dversion,d.deleted as ddeleted,r.id as rid,r.name as rname,r.perms
+        from depart d,students e,roles r
+        where d.id = e.studentid and r.id = e.role and e.deleted = 0 and d.deleted = 0
+        ORDER BY e.id ASC
+    </select>
+
+    <select id="getEmployeeByName" resultMap="employeedepart">
+        select e.*
+             ,d.id as did,d.name as dname,d.createtime as dcreatetime,d.updatetime as dupdatetime,d.version as dversion,d.deleted as ddeleted,r.id as rid,r.name as rname,r.perms
+        from depart d,students e,roles r
+        where d.id = e.studentid and r.id = e.role and e.name = #{name} and e.deleted = 0 and d.deleted = 0
+    </select>
+
+    <select id="getEmployeeByID" resultMap="employeedepart">
+        select e.*
+             ,d.id as did,d.name as dname,d.createtime as dcreatetime,d.updatetime as dupdatetime,d.version as dversion,d.deleted as ddeleted,r.id as rid,r.name as rname,r.perms
+        from depart d,students e,roles r
+        where d.id = e.studentid and r.id = e.role and e.id = #{id} and e.deleted = 0 and d.deleted = 0
+    </select>
+
+    <select id="login" resultMap="employeedepart">
+        select e.*
+             ,d.id as did,d.name as dname,d.createtime as dcreatetime,d.updatetime as dupdatetime,d.version as dversion,d.deleted as ddeleted,r.id as rid,r.name as rname,r.perms
+        from depart d,students e,roles r
+        where d.id = e.studentid and r.id = e.role and e.name = #{username} and e.password = #{password} and e.deleted = 0 and d.deleted = 0
+    </select>
+
+    <select id="get" resultMap="employeedepart">
+        select e.*
+        ,d.id as did,d.name as dname,d.createtime as dcreatetime,d.updatetime as dupdatetime,d.version as dversion,d.deleted as ddeleted,r.id as rid,r.name as rname,r.perms
+        from depart d,students e,roles r
+        <where>
+            d.id = e.studentid and r.id = e.role and e.deleted = 0 and d.deleted = 0
+            <if test="name!=null">
+                and e.name like "%"#{name}"%"
+            </if>
+            <if test="major!=null">
+                and e.major like "%"#{major}"%"
+            </if>
+            <if test="studentid!=0">
+                and e.studentid = #{studentid}
+            </if>
+            <if test="roleid!=0">
+                and e.role = #{roleid}
+            </if>
+        </where>
+    </select>
+    <select id="getBymajor" resultMap="employeedepart">
+        select e.*
+        ,d.id as did,d.name as dname,d.createtime as dcreatetime,d.updatetime as dupdatetime,d.version as dversion,d.deleted as ddeleted,r.id as rid,r.name as rname,r.perms
+        from depart d,students e,roles r
+        <where>
+            d.id = e.studentid and r.id = e.role and e.deleted = 0 and d.deleted = 0 and e.major = #{major}
+            <if test="name!=null">
+                and e.name like "%"#{name}"%"
+            </if>
+            <if test="major!=null">
+                and e.major like "%"#{major}"%"
+            </if>
+            <if test="studentid!=0">
+                and e.studentid = #{studentid}
+            </if>
+            <if test="roleid!=0">
+                and e.role = #{roleid}
+            </if>
+        </where>
+    </select>
+    <select id="getEmployee" resultMap="employeedepart">
+        select e.*
+             ,d.id as did,d.name as dname,d.createtime as dcreatetime,d.updatetime as dupdatetime,d.version as dversion,d.deleted as ddeleted,r.id as rid,r.name as rname,r.perms
+        from depart d,students e,roles r
+        where d.id = e.studentid and r.id = e.role and e.name = #{name} and e.deleted = 0 and d.deleted = 0
+    </select>
+
+    <select id="getEmployeeByDepartId" resultMap="employeedepart">
+        select e.*
+             ,d.id as did,d.name as dname,d.createtime as dcreatetime,d.updatetime as dupdatetime,d.version as dversion,d.deleted as ddeleted,r.id as rid,r.name as rname,r.perms
+        from depart d,students e,roles r
+        where d.id = e.studentid and r.id = e.role and e.deleted = 0 and e.studentid = #{studentid} and d.deleted = 0
+    </select>
+
+    <select id="getEmployeeByMajor" resultMap="employeedepart">
+        select e.*
+             ,d.id as did,d.name as dname,d.createtime as dcreatetime,d.updatetime as dupdatetime,d.version as dversion,d.deleted as ddeleted,r.id as rid,r.name as rname,r.perms
+        from depart d,students e,roles r
+        where d.id = e.studentid and r.id = e.role and e.deleted = 0 and d.deleted = 0 and e.major =#{major} and e.role = #{roleid}
+    </select>
+
+</mapper>

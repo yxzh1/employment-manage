@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>招聘信息管理</title>
+	<link th:href="@{/asserts/css/bootstrap.min.css}" rel="stylesheet">
+	<link th:href="@{/asserts/css/dashboard.css}" rel="stylesheet">
+	<script th:src="@{/asserts/js/jquery-3.2.1.slim.min.js}"></script>
+	<script th:src="@{/asserts/js/bootstrap.min.js}"></script>
+	<style type="text/css">
+			tr{
+				/*表格内容居中展示*/
+				text-align: center;
+			}
+			/* Chart.js */
+
+			@-webkit-keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+
+			@keyframes chartjs-render-animation {
+				from {
+					opacity: 0.99
+				}
+				to {
+					opacity: 1
+				}
+			}
+
+			.chartjs-render-monitor {
+				-webkit-animation: chartjs-render-animation 0.001s;
+				animation: chartjs-render-animation 0.001s;
+			}
+		</style>
+</head>
+
+<body>
+<!--顶部导航栏-->
+<div th:replace="~{commons/commons::topbar}"></div>
+
+<div class="container-fluid">
+	<div class="row">
+
+		<!--侧边栏-->
+		<!--传递参数给组件-->
+		<div th:replace="~{commons/commons::sidebar(active='zpx')}"></div>
+
+		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+			<h2>招聘信息</h2>
+			<br/>
+			<a class="btn btn-info" th:href="@{/zpx/download}" style="margin-right auto">下载详情</a>
+			<a shiro:hasPermission="'zpx:upload'" class="btn btn-info" th:href="@{/zpx/toUpload}" style="margin-right auto">上传附件</a>
+			<h3><a shiro:hasPermission="'zpx:toAdd'" class="btn  btn-success" style="float: right" th:href="@{/zpx/toAdd}">添加招聘信息</a></h3>
+			<br/>
+			<div class="table-responsive">
+				<table class="table table-striped table-sm">
+					<thead>
+					<tr>
+						<th>序号</th>
+						<th>公司名字</th>
+						<th>负责人</th>
+						<th>招聘职位</th>
+						<th>薪资福利</th>
+						<th>学历要求</th>
+						<th>专业要求</th>
+						<th>发布日期</th>
+						<th>修改日期</th>
+						<th shiro:hasPermission="'zpx:toUpdate'">操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					<!--循环遍历后端传来的列表-->
+					<tr th:each="zpx:${zpxList}">
+						<!--在处理业务数据时，通常有表头（主表），表身（从表），当我们在前端需要显示表身时不能使用ID当做序号（很有可能排序不同而错乱），
+                        那么处理办法，1.通过Java后端实现 2.通过前端遍历时添加。
+                        对List的实体名拼接Stat.index+1 就能得到序号信息-->
+						<td th:text="${zpxStat.index+1}"></td>
+						<td th:text="${zpx.enterprise_name}"></td>
+						<td th:text="${zpx.person_in_charge}"></td>
+						<td th:text="${zpx.recruitment_occupation}"></td>
+						<td th:text="${zpx.compensation_and_benefits}"></td>
+						<td th:text="${zpx.educational_requirements}"></td>
+						<td th:text="${zpx.professional_requirements}"></td>
+						<td th:text="${#dates.format(zpx.createtime,'yyyy-MM-dd HH:mm:ss')}"></td>
+						<td th:text="${#dates.format(zpx.updatetime,'yyyy-MM-dd HH:mm:ss')}"></td>
+						<td>
+							<a shiro:hasPermission="'zpx:toUpdate'" class="btn btn-sm btn-primary" th:href="@{/zpx/toUpdate/}+${zpx.id}">修改</a>
+							<a shiro:hasPermission="'zpx:delete'" class="btn btn-sm btn-danger"  th:href="@{/zpx/delete/}+${zpx.id}">删除</a>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</main>
+	</div>
+</div>
+
+
+
+</body>
+
+</html>

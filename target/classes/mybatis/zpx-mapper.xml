@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sm.dao.RecruitmentDao">
+    <resultMap id="Recruitmentinfo" type="Recruitment">
+        <result property="id" column="id"></result>
+        <result property="enterprise_name" column="enterprise_name"></result>
+        <result property="person_in_charge" column="person_in_charge"></result>
+        <result property="recruitment_occupation" column="recruitment_occupation"></result>
+        <result property="compensation_and_benefits" column="compensation_and_benefits"></result>
+        <result property="educational_requirements" column="educational_requirements"></result>
+        <result property="professional_requirements" column="professional_requirements"></result>
+        <result property="phone" column="phone"></result>
+        <result property="createtime" column="createtime"></result>
+        <result property="updatetime" column="updatetime"></result>
+        <result property="version" column="version"></result>
+        <result property="deleted" column="deleted"></result>
+        <result property="reid" column="reid"></result>
+        <association property="enterprise" javaType="enterprise">
+            <result property="id" column="did"></result>
+            <result property="name" column="dname"></result>
+            <result property="age" column="dage"></result>
+            <result property="sex" column="dsex"></result>
+            <result property="phone" column="dphone"></result>
+            <result property="birth" column="dbirth"></result>
+            <result property="role" column="drole"></result>
+            <result property="createtime" column="dcreatetime"></result>
+            <result property="updatetime" column="dupdatetime"></result>
+            <result property="version" column="dversion"></result>
+            <result property="deleted" column="ddeleted"></result>
+            <result property="enterprise_usersid" column="denterprise_usersid"></result>
+            <result property="enterprise_addressid" column="denterprise_addressid"></result>
+            <result property="enterprise_industryid" column="denterprise_industryid"></result>
+            <result property="enterprise_name" column="denterprise_name"></result>
+        </association>
+    </resultMap>
+
+    <select id="getZpxList" resultMap="Recruitmentinfo">
+        select d.*
+             ,e.id did,e.name dname,e.age dage,e.sex dsex,e.phone dphone,e.birth dbirth,e.role drole
+             ,e.createtime dcreatetime,e.updatetime dupdatetime,e.version dversion,e.deleted ddeleted
+             ,e.enterprise_usersid denterprise_usersid,e.enterprise_addressid denterprise_addressid
+             ,e.enterprise_industryid denterprise_industryid,e.enterprise_name denterprise_name
+        from recruitment_information d,enterprise_users e
+        where  d.deleted = 0 and e.deleted = 0 and d.reid = e.id
+        ORDER BY d.id ASC
+    </select>
+
+    <select id="getRecruitmentByName" resultMap="Recruitmentinfo">
+        select d.*
+             ,e.id did,e.name dname,e.age dage,e.sex dsex,e.phone dphone,e.birth dbirth,e.role drole
+             ,e.createtime dcreatetime,e.updatetime dupdatetime,e.version dversion,e.deleted ddeleted
+             ,e.enterprise_usersid denterprise_usersid,e.enterprise_addressid denterprise_addressid
+             ,e.enterprise_industryid denterprise_industryid,e.enterprise_name denterprise_name
+        from recruitment_information d,enterprise_users e
+        where  d.deleted = 0 and e.deleted = 0 and d.reid = e.id and d.Enterprise_name =#{Enterprise_name}
+        ORDER BY d.id ASC
+    </select>
+    <select id="getRecruitmentByID" resultMap="Recruitmentinfo">
+        select d.*
+             ,e.id did,e.name dname,e.age dage,e.sex dsex,e.phone dphone,e.birth dbirth,e.role drole
+             ,e.createtime dcreatetime,e.updatetime dupdatetime,e.version dversion,e.deleted ddeleted
+             ,e.enterprise_usersid denterprise_usersid,e.enterprise_addressid denterprise_addressid
+             ,e.enterprise_industryid denterprise_industryid,e.enterprise_name denterprise_name
+        from recruitment_information d,enterprise_users e
+        where  d.deleted = 0 and e.deleted = 0 and d.reid = e.id and d.id = #{id}
+        ORDER BY d.id ASC
+    </select>
+    <update id="updateRecruit">
+        update recruitment_information set person_in_charge = #{name} where Enterprise_name = #{Enterprise_name}
+    </update>
+
+</mapper>
